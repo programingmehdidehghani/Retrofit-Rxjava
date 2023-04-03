@@ -1,8 +1,10 @@
-package com.example.rxjavaretrofit;
+package com.example.rxjavaretrofit.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.rxjavaretrofit.R;
 
 public class SplashActivity extends AppCompatActivity {
 
