@@ -1,6 +1,7 @@
 package com.example.rxjavaretrofit.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.example.rxjavaretrofit.model.BilimKadiniModel;
 import com.example.rxjavaretrofit.network.Service;
 import com.example.rxjavaretrofit.utils.AlertDialogUtil;
 import com.example.rxjavaretrofit.utils.Constants;
+import com.example.rxjavaretrofit.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +54,34 @@ public class ListActivity extends AppCompatActivity {
         bilimKadinlariniGetir();
     }
 
+
+    private void initRecycleView(List<BilimKadiniModel> bilimKadiniList){
+        recyclerView = findViewById(R.id.rcvBilimKadinlari);
+        BilimKadiniAdaptor bilimKadiniAdaptor = new BilimKadiniAdaptor(bilimKadiniList, getApplicationContext(), new BilimKadiniAdaptor.OnItemClickListener() {
+            @Override
+            public void onClik(int position) {
+                BilimKadiniModel tiklananBilimKadini = bilimKadiniList.get(position);
+                ekranGecisiYap(tiklananBilimKadini);
+            }
+        });
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setAdapter(bilimKadiniAdaptor);
+    }
+
+    private void ekranGecisiYap(BilimKadiniModel tiklananBilimKadini){
+        Intent detayActivityIntent = new Intent(getApplicationContext(),DetayActivity.class);
+        String tiklananBilimKadiniString = ObjectUtil.bilimKadiniToJsonString(tiklananBilimKadini);
+        detayActivityIntent.putExtra(Constants.TIKLANAN_BILIM_KADINI_TASINANIN_BASLIGI,tiklananBilimKadiniString);
+        startActivity(detayActivityIntent);
+
+    }
+
+    private void progressDialogGoster(){
+        progressDialog = new ProgressDialog(ListActivity.this);
+        progressDialog.setMessage(getString(R.string.progress_dialog_message));
+        progressDialog.show();
+    }
+
     public void  bilimKadinlariniGetir()
     {
         new Service().getServiceApi().bilimKadinlariniGetir().
@@ -78,18 +108,5 @@ public class ListActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                     }
                 });
-    }
-
-    private void initRecycleView(List<BilimKadiniModel> bilimKadiniList){
-        recyclerView = findViewById(R.id.rcvBilimKadinlari);
-        BilimKadiniAdaptor bilimKadiniAdaptor = new BilimKadiniAdaptor(bilimKadiniList, getApplicationContext(), new BilimKadiniAdaptor.OnItemClickListener() {
-            @Override
-            public void onClik(int position) {
-                BilimKadiniModel tiklananBilimKadini = bilimKadiniList.get(position);
-                ekranGecisiYap(tiklananBilimKadini);
-            }
-        });
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.setAdapter(bilimKadiniAdaptor);
     }
 }
