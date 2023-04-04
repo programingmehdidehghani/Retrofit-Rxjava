@@ -18,4 +18,8 @@ public class DetayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detay);
     }
+
+    private void init(){
+        
+    }
 }
