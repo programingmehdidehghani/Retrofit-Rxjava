@@ -25,5 +25,9 @@ public class DetayActivity extends AppCompatActivity {
     private void init(){
         String tasinanBilimKadiniString = getIntent().getStringExtra(Constants.TIKLANAN_BILIM_KADINI_TASINANIN_BASLIGI);
         BilimKadiniModel bilimKadiniModel = ObjectUtil.jsonStringToBilimKadini(tasinanBilimKadiniString);
+        
+        imgKapakDetay = findViewById(R.id.imgKapakDetay);
+        txtBaslik = findViewById(R.id.txtBaslik);
+        txtDetay = findViewById(R.id.txtDetay);
     }
 }
