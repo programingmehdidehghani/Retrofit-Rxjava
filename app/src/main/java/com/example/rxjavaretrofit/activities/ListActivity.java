@@ -21,9 +21,10 @@ import com.example.rxjavaretrofit.utils.ObjectUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ListActivity extends AppCompatActivity {
@@ -54,6 +55,38 @@ public class ListActivity extends AppCompatActivity {
         bilimKadinlariniGetir();
     }
 
+    public void  bilimKadinlariniGetir(){
+        new Service().getServiceApi().bilimKadinlariniGetir()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<BilimKadiniModel>>() {
+                    List<BilimKadiniModel> bilimKadinlari=new ArrayList<>();
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull List<BilimKadiniModel> bilimKadiniModels) {
+                        bilimKadinlari = bilimKadiniModels;
+
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        if(bilimKadinlari.size()>0) {
+                            initRecycleView(bilimKadinlari);
+                        }
+                        progressDialog.dismiss();
+                    }
+                });
+    }
+
 
     private void initRecycleView(List<BilimKadiniModel> bilimKadiniList){
         recyclerView = findViewById(R.id.rcvBilimKadinlari);
@@ -82,31 +115,5 @@ public class ListActivity extends AppCompatActivity {
         progressDialog.show();
     }
 
-    public void  bilimKadinlariniGetir()
-    {
-        new Service().getServiceApi().bilimKadinlariniGetir().
-                subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<BilimKadiniModel>>() {
-                    List<BilimKadiniModel> bilimKadinlari=new ArrayList<>();
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-                    @Override
-                    public void onNext(List<BilimKadiniModel> bilimKadiniList) {
-                        bilimKadinlari=bilimKadiniList;
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-                    @Override
-                    public void onComplete()
-                    {
-                        if(bilimKadinlari.size()>0) {
-                            initRecycleView(bilimKadinlari);
-                        }
-                        progressDialog.dismiss();
-                    }
-                });
-    }
+
 }
