@@ -17,7 +17,6 @@ public class Service {
                     .baseUrl(Constants.BASE_URL)
                     .client(getOkHttpClient())
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
         }
         return retrofit;
