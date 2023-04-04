@@ -1,5 +1,6 @@
 package com.example.rxjavaretrofit.utils;
 
+import com.example.rxjavaretrofit.model.BilimKadiniModel;
 import com.google.gson.Gson;
 
 public class ObjectUtil {
