@@ -24,6 +24,6 @@ public class DetayActivity extends AppCompatActivity {
 
     private void init(){
         String tasinanBilimKadiniString = getIntent().getStringExtra(Constants.TIKLANAN_BILIM_KADINI_TASINANIN_BASLIGI);
-        BilimKadiniModedel bilimKadiniModel = ObjectUtil.jsonStringToBilimKadini(tasinanBilimKadiniString);
+        BilimKadiniModel bilimKadiniModel = ObjectUtil.jsonStringToBilimKadini(tasinanBilimKadiniString);
     }
 }
